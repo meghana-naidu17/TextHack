@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Main Entry Point for TextHack.
  * Features an interactive switch-case menu to select and execute any text processing,
- * pattern matching, sequence alignment, or graph optimization algorithm.
+ * pattern matching, sequence alignment, approximation, or graph optimization algorithm.
  */
 public class Main {
 
@@ -18,14 +18,14 @@ public class Main {
             printBanner();
             printMenu();
 
-            System.out.print("\nEnter your choice [0-10]: ");
+            System.out.print("\nEnter your choice [0-13]: ");
             String input = scanner.nextLine().trim();
 
             int choice;
             try {
                 choice = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("\n[ERROR] Invalid input! Please enter a valid number between 0 and 10.");
+                System.out.println("\n[ERROR] Invalid input! Please enter a valid number between 0 and 13.");
                 promptEnterToContinue(scanner);
                 continue;
             }
@@ -79,6 +79,21 @@ public class Main {
                     break;
 
                 case 10:
+                    // CO5: Vertex Cover 2-Approximation and Scheduling Demonstration
+                    VertexCoverApproximation.run(scanner);
+                    break;
+
+                case 11:
+                    // CO6: Miller-Rabin Primality Testing and Randomized Hashing Techniques
+                    MillerRabinAndRandomizedHashing.run(scanner);
+                    break;
+
+                case 12:
+                    // CO6: Parallel Prefix-Sum and Performance Benchmarking
+                    ParallelPrefixSumBenchmark.run(scanner);
+                    break;
+
+                case 13:
                     // System Diagnostics and Dataset Health Check
                     runDiagnostics();
                     promptEnterToContinue(scanner);
@@ -93,7 +108,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("[ERROR] Choice out of range! Please choose an option between 0 and 10.");
+                    System.out.println("[ERROR] Choice out of range! Please choose an option between 0 and 13.");
                     promptEnterToContinue(scanner);
                     break;
             }
@@ -120,7 +135,10 @@ public class Main {
         System.out.println(" [7]  Citation Flow Analysis (Ford-Fulkerson Max Flow)");
         System.out.println(" [8]  Bipartite Matching & Resource Allocation (Edmonds-Karp)");
         System.out.println(" [9]  Exact Set Cover Document Optimization (Backtracking)");
-        System.out.println(" [10] System Diagnostics & Dataset Verification");
+        System.out.println(" [10] Vertex Cover 2-Approximation & Scheduling Demo (CO5)");
+        System.out.println(" [11] Miller-Rabin Primality Testing & Randomized Hashing (CO6)");
+        System.out.println(" [12] Parallel Prefix-Sum & Performance Benchmarking (CO6)");
+        System.out.println(" [13] System Diagnostics & Dataset Verification");
         System.out.println(" [0]  Exit TextHack");
     }
 

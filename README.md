@@ -1,6 +1,6 @@
-# TextHack: Advanced Text Analytics & Graph Algorithms Suite
+# TextHack: Advanced Text Analytics, Graph Algorithms & Optimization Suite
 
-An integrated, high-performance Data Structures and Algorithms (DSA) project for text processing, exact and fuzzy string matching, dynamic programming sequence alignment, corpus indexing, and network optimization.
+An integrated, high-performance Data Structures and Algorithms (DSA) project for text processing, exact and fuzzy string matching, dynamic programming sequence alignment, corpus indexing, graph optimization, probabilistic primality testing, universal hashing, and parallel prefix computation.
 
 ---
 
@@ -18,7 +18,7 @@ An integrated, high-performance Data Structures and Algorithms (DSA) project for
 
 ## Overview
 
-**TextHack** brings together essential computer science and NLP algorithms in a unified, production-ready Java application. It provides both standalone execution for individual algorithm classes and a central, menu-driven CLI (`Main.java`) with zero compilation errors, smooth Scanner lifecycle management, and automatic dataset discovery across directories.
+**TextHack** brings together essential computer science, graph theory, and NLP algorithms in a unified, production-ready Java application. It provides both standalone execution for individual algorithm classes and a central, menu-driven CLI (`Main.java`) with zero compilation errors, smooth Scanner lifecycle management, and automatic dataset discovery across directories.
 
 ---
 
@@ -58,22 +58,46 @@ An integrated, high-performance Data Structures and Algorithms (DSA) project for
 ### 9. Minimum Document Set Cover (`practical.ExactSetCover`)
 - **Purpose**: Finding the minimal subset of documents required to cover all target search terms using a recursive backtracking optimization with branch pruning.
 
+### 10. Vertex Cover 2-Approximation & Scheduling Demonstration (`practical.VertexCoverApproximation`) [CO5]
+- **Purpose**: Approximation algorithm for the NP-complete Minimum Vertex Cover problem and application to conflict scheduling.
+- **Mechanism**:
+  - Repeatedly picks an uncovered edge $(u, v)$, adds *both* endpoints to cover $C$, and discards incident edges.
+  - Provable theoretical guarantee: $|C| \le 2 \times |C^*|$.
+  - Evaluates standard graphs (Cycle C5, Star S6, Petersen Graph) comparing 2-approximation with exact optimal covers.
+  - **Real-World Scheduling**: Resolves examination/workshop scheduling conflicts by determining the minimal proctor stations to monitor all conflicting course pairs.
+
+### 11. Miller-Rabin Primality Testing & Randomized Hashing (`practical.MillerRabinAndRandomizedHashing`) [CO6]
+- **Purpose**: Fast probabilistic primality testing and collision-resistant randomized universal hashing.
+- **Mechanism**:
+  - **Miller-Rabin Test**: Decomposes $n - 1 = 2^s \cdot d$ and tests random bases $a \in [2, n-2]$ with modular exponentiation. Error probability $\le (1/4)^k$ after $k$ rounds. Benchmarked against trial division (achieving up to 1300x speedup on 64-bit primes) and validates 256-bit cryptographic numbers.
+  - **2-Universal Hashing**: Carter-Wegman universal hash family $h_{a,b}(x) = ((a \cdot x + b) \bmod p) \bmod m$. Dynamically hashes thousands of dataset tokens to verify uniform bucket distribution and defend against hash-flooding DoS attacks.
+
+### 12. Parallel Prefix-Sum & Multi-Core Benchmarking (`practical.ParallelPrefixSumBenchmark`) [CO6]
+- **Purpose**: Work-efficient parallel prefix computation (scan) and high-throughput multi-core performance benchmarking.
+- **Mechanism**:
+  - **Algorithm**: Multi-threaded block scan with Phase 1 (parallel local scan & block reduction), Phase 2 (sequential block offsets scan), and Phase 3 (parallel offset distribution).
+  - **Benchmarking Suite**: Evaluates arrays up to 10,000,000 elements comparing Sequential $O(n)$, Custom Multi-Threaded ForkJoin, and Java's built-in `Arrays.parallelPrefix`, reporting execution time (ms), throughput (MOps/sec), and speedup factor.
+
 ---
 
 ## Algorithm Complexity Reference
 
-| Algorithm / Feature | Primary Class | Time Complexity | Space Complexity |
-|---|---|---|---|
-| **KMP Pattern Matching** | `KMPapplied` | $O(n + m)$ | $O(m)$ |
-| **Rabin-Karp Substring Search** | `RabinKarpSearchDoc` | Average: $O(n + m)$, Worst: $O(n \times m)$ | $O(1)$ auxiliary |
-| **Jaccard Similarity** | `RabinKarpSearchDoc` | $O(V_1 + V_2)$ | $O(V_1 + V_2)$ |
-| **Levenshtein Distance (Fuzzy)** | `FuzzySearch` | $O(m \times n)$ per candidate | $O(m \times n)$ |
-| **Needleman-Wunsch Alignment** | `NeedlemanWunch` | $O(m \times n)$ | $O(m \times n)$ |
-| **Ford-Fulkerson Max Flow** | `FordFulkersonCitationFlow` | $O(E \times \text{max\_flow})$ | $O(V^2)$ residual graph |
-| **Edmonds-Karp Max Flow** | `EdmondsKarpBipartiteMatching` | $O(V \times E^2)$ | $O(V^2)$ residual graph |
-| **Exact Set Cover** | `ExactSetCover` | $O(2^D \times T)$ (Pruned) | $O(D + T)$ |
+| Algorithm / Feature | Primary Class | Course Outcome | Time Complexity | Space Complexity |
+|---|---|---|---|---|
+| **KMP Pattern Matching** | `KMPapplied` | - | $O(n + m)$ | $O(m)$ |
+| **Rabin-Karp Substring Search** | `RabinKarpSearchDoc` | - | Average: $O(n + m)$, Worst: $O(n \times m)$ | $O(1)$ auxiliary |
+| **Jaccard Similarity** | `RabinKarpSearchDoc` | - | $O(V_1 + V_2)$ | $O(V_1 + V_2)$ |
+| **Levenshtein Distance (Fuzzy)** | `FuzzySearch` | - | $O(m \times n)$ per candidate | $O(m \times n)$ |
+| **Needleman-Wunsch Alignment** | `NeedlemanWunch` | - | $O(m \times n)$ | $O(m \times n)$ |
+| **Ford-Fulkerson Max Flow** | `FordFulkersonCitationFlow` | - | $O(E \times \text{max\_flow})$ | $O(V^2)$ residual graph |
+| **Edmonds-Karp Max Flow** | `EdmondsKarpBipartiteMatching` | - | $O(V \times E^2)$ | $O(V^2)$ residual graph |
+| **Exact Set Cover** | `ExactSetCover` | - | $O(2^D \times T)$ (Pruned) | $O(D + T)$ |
+| **Vertex Cover 2-Approx** | `VertexCoverApproximation` | **CO5** | $O(V + E)$ | $O(V + E)$ |
+| **Miller-Rabin Primality** | `MillerRabinAndRandomizedHashing` | **CO6** | $O(k \cdot \log^3 n)$ | $O(\log n)$ |
+| **Universal Randomized Hash** | `MillerRabinAndRandomizedHashing` | **CO6** | $O(\text{len})$ evaluation | $O(1)$ auxiliary |
+| **Parallel Prefix-Sum** | `ParallelPrefixSumBenchmark` | **CO6** | Work: $O(n)$, Span: $O(\log n)$ | $O(n)$ output |
 
-*(Where $n$ = text length, $m$ = pattern length, $V$ = vertices, $E$ = edges, $D$ = documents, $T$ = terms)*
+*(Where $n$ = text/array length, $m$ = pattern length, $V$ = vertices, $E$ = edges, $D$ = documents, $T$ = terms, $k$ = witness rounds)*
 
 ---
 
@@ -109,13 +133,16 @@ TextHack/
 │       ├── FordFulkersonCitationFlow.java
 │       ├── FuzzySearch.java
 │       ├── KMPapplied.java
-│       ├── Main.java                # Central interactive switch-case menu
+│       ├── Main.java                # Central interactive switch-case menu (1-13)
+│       ├── MillerRabinAndRandomizedHashing.java    # CO6 Primality & Universal Hashing
 │       ├── NeedlemanWunch.java
-│       └── RabinKarpSearchDoc.java
+│       ├── ParallelPrefixSumBenchmark.java         # CO6 Parallel Prefix-Sum Scan
+│       ├── RabinKarpSearchDoc.java
+│       └── VertexCoverApproximation.java           # CO5 2-Approx & Scheduling
 ├── bin/                             # Compiled Java class binaries
 ├── build.bat                        # Windows 1-click build script
 ├── run.bat                          # Windows 1-click run script
-└── README.md                        # Documentation
+└── README.md                        # Project documentation
 ```
 
 ---
@@ -143,6 +170,9 @@ java -cp bin practical.Main
 ### Option 3: Running Individual Algorithms Standalone
 Each class retains its own `public static void main(String[] args)`:
 ```powershell
+java -cp bin practical.VertexCoverApproximation
+java -cp bin practical.MillerRabinAndRandomizedHashing
+java -cp bin practical.ParallelPrefixSumBenchmark
 java -cp bin practical.KMPapplied
 java -cp bin practical.FuzzySearch
 java -cp bin practical.NeedlemanWunch
@@ -172,7 +202,10 @@ When running `practical.Main`, the application presents a central switch-case da
  [7]  Citation Flow Analysis (Ford-Fulkerson Max Flow)
  [8]  Bipartite Matching & Resource Allocation (Edmonds-Karp)
  [9]  Exact Set Cover Document Optimization (Backtracking)
- [10] System Diagnostics & Dataset Verification
+ [10] Vertex Cover 2-Approximation & Scheduling Demo (CO5)
+ [11] Miller-Rabin Primality Testing & Randomized Hashing (CO6)
+ [12] Parallel Prefix-Sum & Performance Benchmarking (CO6)
+ [13] System Diagnostics & Dataset Verification
  [0]  Exit TextHack
 ```
 
@@ -190,3 +223,7 @@ When running `practical.Main`, the application presents a central switch-case da
    - Refactored all submodules to accept a shared `Scanner` via `run(Scanner)` without closing `System.in`, preventing `NoSuchElementException` crashes when returning to the main menu.
 5. **Windows-1252 Terminal Encoding**:
    - Sanitized UI banners and prompts to standard ASCII to guarantee clean rendering on all Windows command prompts and PowerShell environments.
+6. **Curriculum Modules 10, 11, and 12 Added**:
+   - Implemented Vertex Cover 2-Approximation with real-world Exam Conflict Scheduling (CO5).
+   - Implemented Miller-Rabin Primality Testing with step-by-step trace and Carter-Wegman Universal Randomized Hashing (CO6).
+   - Implemented Work-Efficient Parallel Prefix-Sum (Scan) with multi-core benchmarking suite (CO6).
